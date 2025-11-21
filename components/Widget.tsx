@@ -10,13 +10,13 @@ interface WidgetProps {
 
 export default function Widget(props: WidgetProps) {
     return (
-        <View className="border border-black rounded-3xl w-full h-[150px] overflow-hidden">
+        <View className="shadow-lg rounded-3xl w-full h-[150px] overflow-hidden android:elevation-4">
             <View className="bg-black w-full h-fit">
                 <Text className="text-white w-[90%] mx-auto">{props.widgetTitle}</Text>
             </View>
             <View className="flex flex-row grid-cols-3 justify-around">
                 {props.itemProps.map((props) => {
-                    return <WidgetItem title={props.title} imageSrc={props.imageSrc} />
+                    return <WidgetItem key={props.id} title={props.title} imageSrc={props.imageSrc} />
                 })}
             </View>
         </View>
