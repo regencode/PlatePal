@@ -16,35 +16,46 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## CRACK progress (Frontend)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+PHASE 1
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+-  [x] Choose your project category and define the project scope
+-  [x] Research and analyze comparable real-world systems
+-  [x] Identify user roles and core functionalities from a frontend perspective
+-  [x] Write user stories and UI behavior expectations
+-  [ ] Create wireframes or mockups for key screens
+-  [x] Map out user flow and navigation (feature map)
+-  [x] Make assumptions about initial data needs and structure
 
-## Get a fresh project
 
-When you're ready, run:
+PHASE 2 W1
 
-```bash
-npm run reset-project
-```
+-  [x] Set up the frontend project repository and structure
+-  [x] Implement basic routing and navigation between pages
+-  [x] Build out static UI components from your wireframes
+-  [x] Create the static UI for login/register page (mocked only)
+-  [x] Apply styling using a UI library or CSS framework
+-  [ ] Start showing mock data content in key pages
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+PHASE 2 W2
 
-## Learn more
+- [ ] Integrate mock data into main UI pages
+- [ ] Implement conditional rendering for different user roles
+- [ ] Add basic form validation and user feedback (error/success messages)
+- [ ] Refine navigation and improve overall user experience
+- [ ] Deploy the frontend as a static review/demo site
 
-To learn more about developing your project with Expo, look at the following resources:
+PHASE 2 W3
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- [ ] Finalize all static and interactive components
+- [ ] Test and polish navigation and role-based access on the frontend
+- [ ] Improve UI responsiveness and transitions
+- [ ] Complete frontend documentation and update codebase for backend integration
 
-## Join the community
+PHASE 3 
+- [ ] Handle frontend loading states, errors, and edge cases
+- [ ] Polish the overall user experience, including notifications and confirmations
+- [ ] Perform comprehensive end-to-end testing
+- [ ] Finalize all documentation and prepare for your final demo or presentation
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

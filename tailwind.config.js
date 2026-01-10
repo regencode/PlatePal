@@ -12,7 +12,13 @@ module.exports = {
         primary: "var(--primary)",
         primaryForeground: "var(--primary-foreground)",
         text: "var(--text)"
-      }
+      },
+      fontFamily: {
+        "sans": ["InterRegular"],
+        "inter": ["InterRegular"],
+        "inter-semibold": ["InterSemiBold"],
+        "inter-bold": ["InterBold"],
+      },
     },
   },
   plugins: [],

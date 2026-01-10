@@ -10,7 +10,7 @@ interface DropdownProps {
 function Dropdown( props : DropdownProps) {
     const [isOpen, setIsOpen] = useState(props.defaultOpenState);
     return (
-        <View className="w-full">
+        <View className="flex flex-col gap-2 w-full">
             <TouchableOpacity 
             onPress={() => setIsOpen(!isOpen)}
             className="flex flex-row gap-4">

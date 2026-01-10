@@ -2,15 +2,23 @@ import { Text, TouchableOpacity} from "react-native";
 
 interface ButtonProps {
     text: string;
-    onPress: () => {}
+    onPress: () => void;
+    className?: string;
 }
 
-export default function CustomButton(props : ButtonProps) {
+export default function CustomButton({
+    className = "",
+    ...props
+}: ButtonProps) {
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
         onPress={props.onPress}
-        className="border border-black rounded-3xl w-[70%] h-[50px] overflow-hidden">
-            <Text className="text-2xl text-center justify-center">{props.text}</Text>
+        className={`bg-green-600 rounded-full justify-center items-center ${className}`}
+        activeOpacity={0.8}
+        >
+            <Text className="text-white text-lg font-semibold">
+            {props.text}
+            </Text>
         </TouchableOpacity>
     );
 }

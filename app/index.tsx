@@ -1,6 +1,8 @@
 import { TouchableOpacity, Text, View, Image, StyleSheet } from "react-native";
+import CustomButton from "@/components/CustomButton";
 import { useRouter } from "expo-router";
 import { useTheme } from "@/theme";
+import { useFonts } from "expo-font";
 import "@/global.css";
 
 const styles = StyleSheet.create({
@@ -13,7 +15,13 @@ const styles = StyleSheet.create({
 export default function Index() {
     const router = useRouter()
     const { mode, theme, setTheme } = useTheme()
-    console.log(theme)
+    const [loaded] = useFonts({
+        InterRegular: require("../assets/fonts/Inter/Inter_18pt-Regular.ttf"),
+        InterBold: require("../assets/fonts/Inter/Inter_18pt-Bold.ttf"),
+        InterSemiBold: require("../assets/fonts/Inter/Inter_18pt-SemiBold.ttf"),
+    })
+  
+    if (!loaded) return null;
     return (
         <View 
         className="flex items-center justify-center h-[100%] gap-5"
@@ -22,11 +30,9 @@ export default function Index() {
             <Text className="text-5xl">PlatePal</Text>
             <Image style={styles.platepal_logo}
             source={require("@/assets/images/platepal-logo.png")} />
-            <TouchableOpacity 
-            onPress={() => router.push("/auth/login")}
-            className="border border-black w-[30%]">
-                <Text className="text-2xl text-center">Start</Text>
-            </TouchableOpacity>
+            <CustomButton text="Start" 
+            className="w-[70%] h-[50px]"
+            onPress={() => router.push("/auth/login")}/>
 
         </View>
     );
