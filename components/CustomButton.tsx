@@ -16,7 +16,7 @@ export default function CustomButton({
         className={`bg-green-600 rounded-full justify-center items-center ${className}`}
         activeOpacity={0.8}
         >
-            <Text className="text-white text-lg font-semibold">
+            <Text className="text-white text-sm font-inter-semibold">
             {props.text}
             </Text>
         </TouchableOpacity>

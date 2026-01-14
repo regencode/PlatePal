@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import "@/global.css";
 import { useEffect, useState } from "react";
 import CustomButton from "@/components/CustomButton";
+import { AuthAPI } from "@/api/AuthAPI";
 
 const styles = StyleSheet.create({
   platepal_logo: {
@@ -13,10 +14,38 @@ const styles = StyleSheet.create({
 });
 export default function Register() {
     const router = useRouter()
+    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [error, setError] = useState<string | null>(null);
 
+    const register = async () => {
+        if(!email || !password) {
+            setError("Email or password must not be blank!");
+            return;
+        };
+        if(password != confirmPassword) {
+            setError("Passwords must match!"); 
+            return;
+        };
+        try {
+            const { data } = await AuthAPI.register({
+                name: name,
+                email: email,
+                password: password,
+            })
+
+            //todo: save token
+
+            // go to dashboard
+            router.replace("/app/(tabs)/dashboard");
+        }
+        catch(err: any) {
+            console.log("Login failed",
+            err.response?.data?.message ?? "Invalid credentials")
+        }
+    } 
     useEffect(() => {
         console.log("email", email);
     }, [email])
@@ -32,22 +61,30 @@ export default function Register() {
                 source={require("@/assets/images/platepal-logo.png")} />
                 <Text className="text-lg font-inter">Please register to continue</Text>
             </View>
-            <View className="w-[75%]">
+            <View className="w-[85%]">
+                <Text className="text-lg">Name</Text>
+                <CustomInputField placeholder="Enter your name..." className="h-[45px] rounded-md" value={name} onChangeText={(text: string) => setName(text)}/>
+            </View>
+            <View className="w-[85%]">
                 <Text className="text-lg">Email</Text>
-                <CustomInputField onChange={(e) => setEmail(e.target.value)}/>
+                <CustomInputField placeholder="your@email.com" className="h-[45px] rounded-md" value={email} onChangeText={(text: string) => setEmail(text)}/>
             </View>
-            <View className="w-[75%]">
+            <View className="w-[85%]">
                 <Text className="text-lg">Password</Text>
-                <CustomInputField onChange={(e) => setPassword(e.target.value)}/>
+                <CustomInputField placeholder="Enter your password..." className="h-[45px] rounded-md" value={password} secureTextEntry={true} onChangeText={(text: string) => setPassword(text)}/>
             </View>
-            <View className="w-[75%]">
+            <View className="w-[85%]">
                 <Text className="text-lg">Confirm Password</Text>
-                <CustomInputField onChange={(e) => setConfirmPassword(e.target.value)}/>
+                <CustomInputField placeholder="Re-enter password..." className="h-[45px] rounded-md" value={confirmPassword} secureTextEntry={true} onChangeText={(text: string) => setConfirmPassword(text)}/>
+            </View>
+            <View className="w-[85%]">
+                <Text className="text-red-500">{error}</Text>
             </View>
             <CustomButton 
             text="Register"
-            className="w-[70%] h-[50px]"
-            onPress={() => router.push("/(tabs)/dashboard")} />
+            className="w-[85%] h-[45px] rounded-md bg-green-500 py-3"
+            onPress={() => register()} />
+            <View className="w-full h-[10%]" />
         </View>
     );
 }

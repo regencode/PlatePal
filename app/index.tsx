@@ -16,9 +16,16 @@ export default function Index() {
     const router = useRouter()
     const { mode, theme, setTheme } = useTheme()
     const [loaded] = useFonts({
-        InterRegular: require("../assets/fonts/Inter/Inter_18pt-Regular.ttf"),
-        InterBold: require("../assets/fonts/Inter/Inter_18pt-Bold.ttf"),
-        InterSemiBold: require("../assets/fonts/Inter/Inter_18pt-SemiBold.ttf"),
+        InterRegular: require("../assets/fonts/Inter_18pt-Regular.ttf"),
+        InterBold: require("../assets/fonts/Inter_18pt-Bold.ttf"),
+        InterSemiBold: require("../assets/fonts/Inter_18pt-SemiBold.ttf"),
+        InconsolataMedium: require("../assets/fonts/Inconsolata-Medium.ttf"),
+        InconsolataRegular: require("../assets/fonts/Inconsolata-Regular.ttf"),
+        InconsolataSemiBold: require("../assets/fonts/Inconsolata-SemiBold.ttf"),
+        CondensedInconsolataMedium: require("../assets/fonts/Inconsolata_Condensed-Medium.ttf"),
+        CondensedInconsolataRegular: require("../assets/fonts/Inconsolata_Condensed-Regular.ttf"),
+        CondensedInconsolataSemiBold: require("../assets/fonts/Inconsolata_Condensed-SemiBold.ttf"),
+        CondensedInconsolataBold: require("../assets/fonts/Inconsolata_Condensed-Bold.ttf"),
     })
   
     if (!loaded) return null;

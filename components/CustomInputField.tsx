@@ -1,32 +1,36 @@
-import { View, TextInput } from "react-native";
+import { View, TextInput, KeyboardType } from "react-native";
 
 interface InputFieldProps {
-    text: string;
+    value?: string;
     className?: string;
-    onChange?: () => void;
+    onChangeText?: (text: string) => void;
     placeholder?: string;
     textInputClassName?: string;
-    keyboardType?: string;
-    autoCapitalize?: string;
+    keyboardType?: KeyboardType;
+    autoCapitalize?: any;
+    secureTextEntry?: boolean;
 }
 
 export default function CustomInputField({
     className = "",
-    placeholder = "your@email.com",
+    placeholder = "",
     textInputClassName="text-base text-black",
-    keyboardType="email-address",
+    keyboardType="default",
     autoCapitalize="none",
+    secureTextEntry=false,
     ...props
 }: InputFieldProps) {
     return (
-        <View className={"w-full h-[40px] bg-gray-200 rounded-xl px-4 justify-center border border-gray-300" + className}>
+        <View className={`w-full h-[40px] bg-gray-200 px-4 justify-center border border-gray-300 ${className}`}>
             <TextInput
+            value={props.value}
             placeholder={placeholder}
             placeholderTextColor="#9fA6B4" // gray-400
             className={textInputClassName}
             keyboardType={keyboardType}
             autoCapitalize={autoCapitalize}
-            onChange={props.onChange}
+            onChangeText={props.onChangeText}
+            secureTextEntry={secureTextEntry}
             />
         </View>
     );

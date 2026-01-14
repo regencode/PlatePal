@@ -2,24 +2,73 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export interface HeaderProps {
-    onProfilePress: () => {};
+    headerText?: string;
+    onProfilePress?: () => any;
+    onBackPress?: () => any;
+    className?: string;
+    theme?: string;
 }
 
-export function CustomHeader(props: HeaderProps) {
+export function CustomHeader({
+    headerText = "PlatePal",
+    className= "",
+    theme="light",
+    ...props
+}: HeaderProps) {
     return (
-        <View className="w-95 px-5 h-14 bg-white shadow-md shadow-gray-200 flex-row justify-between items-center">
-            <Text className="font-inter-bold text-2xl">
-                PlatePal
+        <View className={
+            `w-95 px-5 h-14 flex-row justify-between items-center 
+            ${
+                theme === "light" ?
+                "bg-white shadow-lg shadow-gray-500"
+                :
+                "bg-black"
+            } 
+            ${className}`
+        }>
+            {props.onBackPress && 
+            <TouchableOpacity>
+                <Ionicons 
+                name="arrow-back"
+                size={28}
+                onPress={props.onBackPress}
+                color={
+                    theme === "light" ?
+                    "black"
+                    :
+                    "white"
+                }
+                />
+            </TouchableOpacity>
+            }
+            <Text className={`font-inter-bold text-2xl self-center
+            ${
+                theme === "light" ?
+                "text-black"
+                :
+                "text-white"
+            }
+            `}>
+
+                {headerText} 
             </Text>
-            <View className="grid grid-cols-2">
-                <View>
-                </View>
-                <TouchableOpacity onPress={props.onProfilePress}>
-                    <Ionicons
-                      name="person-circle-outline"
-                      size={28}
-                    />
-                </TouchableOpacity>
+            <View className="h-fit w-fit">
+                {props.onProfilePress ?
+                    <TouchableOpacity onPress={props.onProfilePress}>
+                        <Ionicons
+                          name="person-circle-outline"
+                          size={28}
+                          color={
+                            theme === "light" ?
+                            "black"
+                            :
+                            "white"
+                          }
+                          />
+                    </TouchableOpacity>
+                :
+                <View />
+                }
             </View>
         </View>
     )
