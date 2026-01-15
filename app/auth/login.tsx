@@ -7,6 +7,7 @@ import CustomButton from "@/components/CustomButton";
 import { AuthAPI } from "@/api/AuthAPI";
 import { Ionicons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
+import { setAccessToken, getAccessToken, storeRefreshToken, getRefreshToken } from "@/api/client";
 
 const styles = StyleSheet.create({
   platepal_logo: {
@@ -27,12 +28,10 @@ export default function Login() {
             return;
         };
         try {
-            const { data } = await AuthAPI.login({
+            await AuthAPI.login({
                 email: email,
                 password: password,
             })
-            //todo: save token
-            await SecureStore.setItemAsync("accessToken", data.accessToken);
             // go to dashboard
             router.replace("/app/(tabs)/dashboard");
         }

@@ -9,8 +9,10 @@ export const MealAPI = {
     },
     getTodayMeals: () => {
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+        const now = new Date()
+        console.log(now, timezone);
         apiClient.get("/me/meals", {
-            params: { timezone }
+            params: { date: now, timezone }
         });
     },
 

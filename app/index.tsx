@@ -32,6 +32,8 @@ export default function Index() {
     const redirectToHomePage = async () => {
         const health = await HealthAPI.health();
         console.log(health);
+
+        await SecureStore.deleteItemAsync("accessToken");
         const token = await SecureStore.getItemAsync("accessToken");
         if (token) { 
             router.replace("/app/(tabs)/dashboard")
