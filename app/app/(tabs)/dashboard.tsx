@@ -13,6 +13,8 @@ import { useRouter } from "expo-router";
 import CustomButton from "@/components/CustomButton";
 import { useLocalSearchParams } from "expo-router";
 import { HealthAPI } from "@/api/HealthAPI";
+import { MealAPI } from "@/api/MealAPI";
+import { Loading } from "@/components/Loading";
 
 
 interface Meal {
@@ -29,10 +31,13 @@ export default function Dashboard() {
     const [calories, setCalories] = useState(0);
     const [calorieLimit, setCalorieLimit] = useState(0);
     const [meals, setMeals] = useState<Meal[]>([])
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
     const { uri } = useLocalSearchParams<{uri: string}>();
 
     const fetchMeals = () => {
+        const todayMeals = MealAPI.getTodayMeals();
+        console.log(fetchMeals);
         return;   
     }
 
@@ -40,6 +45,8 @@ export default function Dashboard() {
         console.log("API URL:", process.env.EXPO_PUBLIC_BACKEND_URL);
         checkConnectivity();
         setCalorieLimit(2000);
+        fetchMeals();
+        setLoading(false);
     }, [])
     useEffect(() => {
         if(uri) {
@@ -52,10 +59,11 @@ export default function Dashboard() {
             ])
         }
     }, [router, uri])
+    if (loading) return <Loading />
     return (
         <View className="pt-safe bg-white">
             <View className="relative z-10 android:elevation-10">
-                <CustomHeader onProfilePress={() => router.push("/app/profile")}/>
+                <CustomHeader displayMembership={true} onProfilePress={() => router.push("/app/profile")}/>
             </View>
             <ScrollView>
                 <View className="flex flex-col gap-5 items-center h-[100%] w-[90%] pt-5 mx-auto">

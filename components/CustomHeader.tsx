@@ -7,10 +7,14 @@ export interface HeaderProps {
     onBackPress?: () => any;
     className?: string;
     theme?: string;
+    displayMembership?: boolean;
+    membershipText?: string;
 }
 
 export function CustomHeader({
     headerText = "PlatePal",
+    displayMembership = false,
+    membershipText = "FREE",
     className= "",
     theme="light",
     ...props
@@ -49,26 +53,34 @@ export function CustomHeader({
                 "text-white"
             }
             `}>
-
                 {headerText} 
             </Text>
-            <View className="h-fit w-fit">
-                {props.onProfilePress ?
-                    <TouchableOpacity onPress={props.onProfilePress}>
-                        <Ionicons
-                          name="person-circle-outline"
-                          size={28}
-                          color={
-                            theme === "light" ?
-                            "black"
-                            :
-                            "white"
-                          }
-                          />
-                    </TouchableOpacity>
-                :
-                <View />
-                }
+            <View className="flex flex-row justify-between w-32 items-center">
+                <View className="h-fit w-fit">
+                    {displayMembership &&
+                        <TouchableOpacity className="border border-black rounded-3xl px-5">
+                            <Text className="font-condensed-inconsolata-bold text-xl">
+                                FREE
+                            </Text>
+                        </TouchableOpacity>
+                    }
+                </View>
+                <View className="h-fit w-fit">
+                    {props.onProfilePress &&
+                        <TouchableOpacity onPress={props.onProfilePress}>
+                            <Ionicons
+                              name="person-circle-outline"
+                              size={28}
+                              color={
+                                theme === "light" ?
+                                "black"
+                                :
+                                "white"
+                              }
+                              />
+                        </TouchableOpacity>
+                    }
+                </View>
             </View>
         </View>
     )

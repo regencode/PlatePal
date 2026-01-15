@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CustomButton from "@/components/CustomButton";
 import { AuthAPI } from "@/api/AuthAPI";
 import { Ionicons } from "@expo/vector-icons";
+import * as SecureStore from "expo-secure-store";
 
 const styles = StyleSheet.create({
   platepal_logo: {
@@ -20,6 +21,7 @@ export default function Login() {
     const [error, setError] = useState<string | null>(null)
 
     const login = async () => {
+        setError(null);
         if(!email || !password) {
             setError("Email or password must not be blank!");
             return;
@@ -29,9 +31,8 @@ export default function Login() {
                 email: email,
                 password: password,
             })
-
             //todo: save token
-
+            await SecureStore.setItemAsync("accessToken", data.accessToken);
             // go to dashboard
             router.replace("/app/(tabs)/dashboard");
         }

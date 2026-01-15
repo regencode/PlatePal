@@ -3,6 +3,8 @@ import CustomButton from "@/components/CustomButton";
 import { useRouter } from "expo-router";
 import { useTheme } from "@/theme";
 import { useFonts } from "expo-font";
+import { HealthAPI } from "@/api/HealthAPI";
+import * as SecureStore from "expo-secure-store";
 import "@/global.css";
 
 const styles = StyleSheet.create({
@@ -27,6 +29,16 @@ export default function Index() {
         CondensedInconsolataSemiBold: require("../assets/fonts/Inconsolata_Condensed-SemiBold.ttf"),
         CondensedInconsolataBold: require("../assets/fonts/Inconsolata_Condensed-Bold.ttf"),
     })
+    const redirectToHomePage = async () => {
+        const health = await HealthAPI.health();
+        console.log(health);
+        const token = await SecureStore.getItemAsync("accessToken");
+        if (token) { 
+            router.replace("/app/(tabs)/dashboard")
+            return;
+        }
+    }
+    redirectToHomePage();
   
     if (!loaded) return null;
     return (
