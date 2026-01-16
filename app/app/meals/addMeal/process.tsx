@@ -2,8 +2,8 @@ import { View, Image, Text, ScrollView, TouchableOpacity } from "react-native"
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { LlmAPI } from "@/api/LlmAPI";
 import { CustomHeader } from "@/components/CustomHeader";
+import { ImageUploadAPI } from "@/api/ImageUploadAPI";
 import { MealAPI } from "@/api/MealAPI";
 import type { MealItem } from "@/types/MealItem";
 
@@ -16,18 +16,14 @@ export default function Process() {
     const [confidence, setConfidence] = useState<number>(0);
     const query = async (imageUri: string) => {
         try {
-            const body = {
-                "text": "You are an AI assistant specialized in food recognition and nutritional analysis.\n\nYou MUST respond using ONLY valid JSON.\nDo NOT include explanations, markdown, comments, or extra text.\nDo NOT wrap the JSON in code fences.\n\nRules:\n- Output must be valid JSON that can be parsed by `JSON.parse()`\n- Use double quotes for all keys and string values\n- Do not include trailing commas\n- Do not include undefined fields\n- All numeric values must be numbers (not strings)\n- Use grams (g), milliliters (ml), milligrams (mg), and kilocalories (kcal) as units\n- Base estimates on standard food composition databases (e.g., USDA or equivalent)\n- If portion size is uncertain, make a reasonable visual estimate and mark confidence\n- Follow the schema exactly\n\nIf the food cannot be identified or nutrition cannot be reliably estimated, return:\n{\n  \"error\": \"unable_to_estimate_nutrition\"\n}\n\nJSON schema:\n{\n  \"food_name\": \"string\",\n  \"estimated_portion\": {\n    \"amount\": \"number\",\n    \"unit\": \"string\"\n  },\n  \"calories_kcal\": \"number\",\n  \"macronutrients\": {\n    \"protein_g\": \"number\",\n    \"fat_g\": \"number\",\n    \"carbohydrates_g\": \"number\"\n  },\n  \"micronutrients\": {\n    \"fiber_g\": \"number\",\n    \"sugar_g\": \"number\",\n    \"sodium_mg\": \"number\"\n  },\n \"confidence\": \"number\"\n}",
-                "encodedImage": imageUri,
-            }
-            let { data } = await LlmAPI.query(body);
+            const { data } =  (await ImageUploadAPI.uploadAndQueryLLM(imageUri))!;
             setConfidence(data.confidence);
             setMealData(data.data);
             const res = await MealAPI.createMealItem(parseInt(mealId), mealData);
             console.log(res);
         }
         catch (e) {
-            console.log(e);
+            throw e;
         }
     }
 
