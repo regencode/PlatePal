@@ -45,7 +45,7 @@ export function CustomHeader({
                 />
             </TouchableOpacity>
             }
-            <Text className={`font-inter-bold text-2xl self-center
+            <Text className={`font-inter-bold text-2xl self-center text-center
             ${
                 theme === "light" ?
                 "text-black"
@@ -55,18 +55,18 @@ export function CustomHeader({
             `}>
                 {headerText} 
             </Text>
-            <View className="flex flex-row justify-between w-32 items-center">
+            <View className="flex flex-row justify-between w-fit items-center">
+                {displayMembership &&
                 <View className="h-fit w-fit">
-                    {displayMembership &&
                         <TouchableOpacity className="border border-black rounded-3xl px-5">
                             <Text className="font-condensed-inconsolata-bold text-xl">
                                 FREE
                             </Text>
                         </TouchableOpacity>
-                    }
                 </View>
-                <View className="h-fit w-fit">
-                    {props.onProfilePress &&
+                }
+                {props.onProfilePress &&
+                <View className="h-fit w-fit px-3">
                         <TouchableOpacity onPress={props.onProfilePress}>
                             <Ionicons
                               name="person-circle-outline"
@@ -79,8 +79,8 @@ export function CustomHeader({
                               }
                               />
                         </TouchableOpacity>
-                    }
                 </View>
+                }
             </View>
         </View>
     )

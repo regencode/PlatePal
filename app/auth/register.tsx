@@ -35,11 +35,7 @@ export default function Register() {
                 email: email,
                 password: password,
             })
-
-            //todo: save token
-
-            // go to dashboard
-            router.replace("/app/(tabs)/dashboard");
+            router.replace("/auth/login");
         }
         catch(err: any) {
             console.log("Login failed",

@@ -1,25 +1,21 @@
-import { View, ScrollView, Text, SectionList } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import Widget from "@/components/Widget";
-import { WidgetType } from "@/types/WidgetType";
 import "@/global.css";
 import Dropdown from "@/components/Dropdown";
 import { CustomHeader } from "@/components/CustomHeader";
-import WidgetButton from "@/components/WidgetButton";
 import WidgetCounter from "@/components/WidgetCounter";
 import WidgetBar from "@/components/WidgetBar";
 import { useEffect, useState } from "react";
-import { FoodItem } from "@/components/FoodItem";
+import { MealItemView } from "@/components/MealItemView";
 import { useRouter } from "expo-router";
 import CustomButton from "@/components/CustomButton";
 import { useLocalSearchParams } from "expo-router";
 import { HealthAPI } from "@/api/HealthAPI";
 import { MealAPI } from "@/api/MealAPI";
 import { Loading } from "@/components/Loading";
+import type { Meal } from "@/types/MealItem";
 
 
-interface Meal {
-    imageSrc: string;
-}
 
 const checkConnectivity = async () => {
     const res = await HealthAPI.health();
@@ -33,14 +29,31 @@ export default function Dashboard() {
     const [meals, setMeals] = useState<Meal[]>([])
     const [loading, setLoading] = useState(true);
     const router = useRouter();
-    const { uri } = useLocalSearchParams<{uri: string}>();
 
-    const fetchMeals = () => {
-        const todayMeals = MealAPI.getTodayMeals();
-        console.log(fetchMeals);
-        return;   
+    const fetchMealItemsFromMeal = async (meal: Meal) => {
+        return await MealAPI.getMealItemsFromMeal(meal.id);
+    }
+    const handleAddMealItem = (mealId: number) => {
+        router.push({
+            pathname: "/app/meals/addMeal/addMealItem",
+            params: { mealId: mealId.toString() }
+        })
     }
 
+    const fetchMeals = async () => {
+        const { data: mealsData } = await MealAPI.getAllMeals();
+        // Promise.all runs all promises in parallel and waits until all promises are resolved
+        const mealsWithItems = await Promise.all(
+            mealsData.map(async (meal : Meal) => {
+                let items = (await fetchMealItemsFromMeal(meal)).data;
+                return {
+                    ...meal,
+                    mealItems: items,
+                };
+            })
+        );
+        setMeals(mealsWithItems);
+    }
     useEffect(() => {
         console.log("API URL:", process.env.EXPO_PUBLIC_BACKEND_URL);
         checkConnectivity();
@@ -48,17 +61,7 @@ export default function Dashboard() {
         fetchMeals();
         setLoading(false);
     }, [])
-    useEffect(() => {
-        if(uri) {
-            const newMeal = {
-                imageSrc: uri,
-            }
-            setMeals([
-                ...meals,
-                newMeal
-            ])
-        }
-    }, [router, uri])
+
     if (loading) return <Loading />
     return (
         <View className="pt-safe bg-white">
@@ -118,11 +121,27 @@ export default function Dashboard() {
                             Today's Meals
                         </Text>
                         <CustomButton 
-                        text="+ Add meal"
+                        text="Add meal"
                         className="w-28 h-full"
                         onPress={() => {router.push("/app/meals/addMeal")}}
                         />
                     </View>                     
+                    <View className="flex flex-col w-full gap-4">
+                        {meals.map(meal => (
+                        <Dropdown key={meal.id.toString()} title={meal.name} defaultOpenState={true}
+                        onPress={() => handleAddMealItem(meal.id)}
+                        >
+                            {meal.mealItems.map(mealItem => (
+                                <MealItemView
+                                key={mealItem.id.toString()} 
+                                name={mealItem.food_name} 
+                                data={mealItem}
+                                />
+                            ))
+                            }
+                        </Dropdown>
+                        ))}
+                    </View>
                 </View>
                 <View className="h-36"/>
             </ScrollView>

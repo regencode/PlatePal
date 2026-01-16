@@ -1,78 +1,50 @@
 import { Text, View, TouchableOpacity } from "react-native";
+import CustomInputField from "@/components/CustomInputField";
 import { CustomHeader } from "@/components/CustomHeader";
 import { useRouter } from "expo-router";
-import { CameraView, useCameraPermissions } from "expo-camera";
 import { StatusBar } from "expo-status-bar";
-import { useTheme } from "@/theme";
 import CustomButton from "@/components/CustomButton";
-import { useEffect, useRef } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { MealAPI } from "@/api/MealAPI";
 
 export default function addMeal() {
     const router = useRouter()
-    const [permission, requestPermission] = useCameraPermissions();
-    const {mode, theme, setTheme} = useTheme();
-    const cameraRef = useRef<CameraView>(null);
+    const [mealName, setMealName] = useState<string>("Lunch");
 
-    const takePhoto = async () => {
-        if (!cameraRef.current) return;
-
-        const photo = await cameraRef.current.takePictureAsync({
-            quality: 0.8,
-            skipProcessing: true,
-        });
-
-        console.log(photo.uri);
-        router.push({
-            pathname: "/app/meals/addMeal/inspectPicture",
-            params: {uri: photo.uri}
-        });
-    };
-
-    useEffect(() => {
-        setTheme("dark");
-    }, [])
-    
-    if (!permission?.granted) {
-        return <CustomButton text="Get camera permissions" onPress={() => requestPermission()}/>
+    const handleAddMeal = async () => {
+        try {
+            const { data } = await MealAPI.createMeal({
+                name: mealName,
+            }); 
+            router.replace("/app/(tabs)/dashboard");
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     return (
         <View>
             <StatusBar style="light" />
-            <View className="pt-safe bg-black">
-                <CameraView 
-                ref={cameraRef}
-                style={{ width: "100%", height: "77%", position: "absolute"}}
-                facing="back" 
-                animateShutter={false}
-                />
+            <View className="pt-safe bg-white">
                 <View className="h-full w-full">
                     <View className="relative z-10 android:elevation-10">
-                        <CustomHeader 
-                        theme={mode}
-                        className="bg-transparent"
-                        headerText="Add meal" onBackPress={() => router.back()} />
+                        <CustomHeader headerText="Create meal" onBackPress={() => router.back()} />
                     </View>
-                    <View className="absolute flex flex-row w-full bottom-24 items-center justify-around"> 
-                        <TouchableOpacity className="flex w-14 aspect-square bg-white align-middle items-center justify-center rounded-xl">
-                            <Ionicons
-                            name="images"
-                            size={32}
-                            className="justify-center"
+                    <View className="h-6" />
+                    <View className="h-full w-[85%] flex flex-col items-center mx-auto gap-5">
+                        <View className="w-full">
+                            <Text className="text-2xl font-inter-bold py-2">Meal name</Text>
+                            <CustomInputField placeholder="Lunch" 
+                            value={mealName}
+                            className="h-[45px] rounded-md" 
+                            onChangeText={(text: string) => setMealName(text)}
                             />
-                        </TouchableOpacity>
-                        <View className="w-28 aspect-square rounded-full bg-black border-4 border-white align-middle justify-center items-center">
-                            <TouchableOpacity 
-                            onPress={() => takePhoto()}
-                            className="w-24 aspect-square rounded-full bg-white" />
                         </View>
-                        <TouchableOpacity className="flex w-14 aspect-square bg-white align-middle items-center justify-center rounded-xl">
-                            <Ionicons
-                            name="reorder-three"
-                            size={32}
-                            className="justify-center"
+                            <CustomButton 
+                            text="Add meal"
+                            className="w-full h-12"
+                            onPress={() => handleAddMeal()}
                             />
-                        </TouchableOpacity>
                     </View>
                 </View>
             </View>

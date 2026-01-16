@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons"
 
 export default function inspectPicture() {
     const router = useRouter()
-    const { uri } = useLocalSearchParams<{uri: string}>();
+    const { mealId, uri } = useLocalSearchParams<{mealId: string, uri: string}>();
     return (
         <View>
             <StatusBar style="light" />
@@ -37,7 +37,7 @@ export default function inspectPicture() {
                         <TouchableOpacity 
                         onPress={() => router.push({
                             pathname: "/app/meals/addMeal/process",
-                            params: { uri }
+                            params: { mealId, uri }
                         })}
                         className="flex-1 h-full aspect-[2/1] bg-white align-middle items-center justify-center rounded-xl">
                             <Ionicons

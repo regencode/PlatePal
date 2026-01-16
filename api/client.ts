@@ -17,21 +17,29 @@ export const setAccessToken = (token: string | null) => {
 export const getAccessToken = () => accessToken;
 
 export const getRefreshToken = async () => {
-    return SecureStore.getItemAsync("refreshToken");
+    return await SecureStore.getItemAsync("refreshToken");
 }
 
 export const deleteRefreshToken = async () => {
-    return SecureStore.deleteItemAsync("refreshToken");
+    return await SecureStore.deleteItemAsync("refreshToken");
 }
 export const storeRefreshToken = async (token: string) => {
-    return SecureStore.setItemAsync("refreshToken", token)
+    return await SecureStore.setItemAsync("refreshToken", token)
 }
 
 apiClient.interceptors.request.use((config) => {
     // interceptor to attach accesstoken to authorization on every request
-    const token = getAccessToken();
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+    try {
+        // if authorization not set, default to accesstoken
+        if(!config.headers.Authorization) {
+            const token = getAccessToken();
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        }
+    } 
+    catch (e) {
+        console.log(e);
     }
     return config;
 });
@@ -45,6 +53,7 @@ apiClient.interceptors.response.use(
     (res) => res, 
     // fail
     async (error) => {
+        console.log("retry");
         const originalRequest = error.config;
         if(error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -62,11 +71,13 @@ apiClient.interceptors.response.use(
             // try to get refreshToken
             try {
                 const refreshToken = await getRefreshToken();
-                const response = await axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/refresh`, {}, {
+                const { data } = await axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/refresh`, {}, {
                     headers: {
                         Authorization: `Bearer ${refreshToken}`,
                     },
                 });
+                storeRefreshToken(data.refreshToken);
+                setAccessToken(data.accessToken);
             }
             catch (e) {
                 // reject all
