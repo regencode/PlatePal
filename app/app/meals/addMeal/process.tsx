@@ -26,7 +26,7 @@ export default function Process() {
             setConfidence(data.confidence);
             setMealData(data.data);
             const res = await MealAPI.createMealItem(parseInt(mealId), mealData);
-            console.log(res);
+            console.log("createmealitem res status", res.status);
         }
         catch (e) {
             console.log(e);
@@ -51,7 +51,7 @@ export default function Process() {
     console.log("mealdata:", mealData);
     return (
         <ScrollView>
-        <View className="p-safe h-full w-full">
+        <View className="pt-safe h-full w-full">
             <View className="relative z-10 android:elevation-10">
                 <CustomHeader 
                 theme="light"
@@ -71,6 +71,9 @@ export default function Process() {
                     </View>
                     :
                     <>
+                    <View className="flex flex-col justify-center bg-white w-full h-20 px-3 rounded-xl">
+                        <Text className="text-center font-inter-bold">{mealData.food_name}</Text>
+                    </View>
                     <View className="flex flex-row justify-between">
                         <Text>
                             Confidence 

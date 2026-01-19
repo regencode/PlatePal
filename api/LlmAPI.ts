@@ -9,7 +9,6 @@ export const LlmAPI = {
         const directory = new Directory(imageUri);
         const file = new File(directory);
         const b64 = `data:image/jpeg;base64,${await file.base64()}`        
-        console.log("after");
         return await apiClient.post("/llm", {
             text: "",
             encodedImage: b64,
