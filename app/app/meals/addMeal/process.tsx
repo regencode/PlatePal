@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { CustomHeader } from "@/components/CustomHeader";
-import { ImageUploadAPI } from "@/api/ImageUploadAPI";
+import { LlmAPI } from "@/api/LlmAPI";
 import { MealAPI } from "@/api/MealAPI";
 import type { MealItem } from "@/types/MealItem";
 
@@ -14,16 +14,25 @@ export default function Process() {
     const router = useRouter();
     const [mealData, setMealData] = useState<MealItem | null>(null)
     const [confidence, setConfidence] = useState<number>(0);
+    const [isReady, setIsReady] = useState(false);
     const query = async (imageUri: string) => {
         try {
-            const { data } =  (await ImageUploadAPI.uploadAndQueryLLM(imageUri))!;
+            const { data } =  await LlmAPI.queryFromImageUri(imageUri);
+            if(data.error) {
+                console.log("Unable to process meal information");
+                return ;
+            }
+            console.log(data);
             setConfidence(data.confidence);
             setMealData(data.data);
             const res = await MealAPI.createMealItem(parseInt(mealId), mealData);
             console.log(res);
         }
         catch (e) {
-            throw e;
+            console.log(e);
+        }
+        finally {
+            setIsReady(true)
         }
     }
 
@@ -36,7 +45,7 @@ export default function Process() {
         query(uri);
     }, [])
 
-    if (!mealData) {
+    if (!isReady) {
       return <Text>Loading...</Text>;
     }
     return (
@@ -50,12 +59,16 @@ export default function Process() {
             <View className="flex flex-col h-full w-full items-center gap-2"> 
                 <View className="w-full aspect-square overflow-hidden bg-black">
                     <Image
-                    source={{ uri }}
+                    source={{ uri }} 
                     style={{ width: "100%", height: "100%"}}
                     />
                 </View>
                 <View className="flex flex-col w-[80%] gap-2">
-                    {mealData && 
+                    {!mealData ?
+                    <View className="flex flex-col justify-center align-middle h-20">
+                        <Text className="w-full text-center"> Error: Cannot process meal information </Text>
+                    </View>
+                    :
                     <>
                     <View className="flex flex-row justify-between">
                         <Text>

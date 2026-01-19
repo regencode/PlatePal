@@ -34,13 +34,29 @@ export const ImageUploadAPI = {
             }
         })
         console.log("uri:", uri);
-        const file = new File(uri);
         console.log("signedUrl:", data.signedUrl);
         console.log("publicUrl:", data.publicUrl);
-        const response = await fetch(data.signedUrl, {
-            method: 'PUT',
-            body: file,
-        });
+        const response = await fetch(uri);
+        console.log("response:", response);
+        const bytes = await response.bytes()
+        let formData = new FormData();
+        formData.append('file', new File(uri));
+        const res = await fetch(
+            data.signedUrl,
+                {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${process.env.EXPO_PUBLIC_CLOUDFLARE_API_KEY}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+                body: formData,
+            },
+        )
+        if(!res.ok) {
+            console.log("Upload error");
+            console.log(res);
+            return;
+        }
         console.log('Upload successful! Public URL:', data.publicUrl);
 
         return await LlmAPI.query({

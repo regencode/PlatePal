@@ -13,7 +13,8 @@ import { useLocalSearchParams } from "expo-router";
 import { HealthAPI } from "@/api/HealthAPI";
 import { MealAPI } from "@/api/MealAPI";
 import { Loading } from "@/components/Loading";
-import type { Meal } from "@/types/MealItem";
+import type { Meal } from "@/types/Meal";
+import type { MealItem } from "@/types/MealItem";
 
 
 

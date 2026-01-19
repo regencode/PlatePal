@@ -6,7 +6,7 @@ nutritional information.
 
 ## Directories
 
-- /api - Collection of classes that provide methods to query the backend
+- /api - Collection of classes that provide methods to query the backend.
 - /app -  Collection of .tsx files that provide the UI layer of the application
 - /app/auth - Authentication pages (/login and /register)
 - /app/app/(tabs) - Main pages, consist of dashboard, AI chat, and Gallery (only dashboard implemented)
