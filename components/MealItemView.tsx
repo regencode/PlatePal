@@ -41,9 +41,9 @@ export const MealItemView = ({
                     ellipsizeMode="tail"
                     className="font-condensed-inconsolata-bold text-center">{name}</Text>
                 </View>
-                <View className="text-center w-20">
-                    <Text className="font-condensed-inconsolata-bold">Calories:</Text>
-                    <Text className="text-xl font font-condensed-inconsolata-medium">{props.data.calories_kcal}</Text>
+                <View className="text-center w-fit">
+                    <Text className="text-sm font-condensed-inconsolata-bold text-center">Calories:</Text>
+                    <Text className="text-xl font font-condensed-inconsolata-medium text-center">{props.data.calories_kcal}</Text>
                 </View>
                 </>
             }
