@@ -25,11 +25,11 @@ export default function Process() {
             console.log(data);
             setConfidence(data.confidence);
             setMealData(data.data);
-            const res = await MealAPI.createMealItem(parseInt(mealId), mealData);
+            const res = await MealAPI.createMealItem(parseInt(mealId), data.data);
             console.log("createmealitem res status", res.status);
         }
         catch (e) {
-            console.log(e);
+            throw e;
         }
         finally {
             setIsReady(true)
@@ -48,7 +48,6 @@ export default function Process() {
     if (!isReady) {
       return <Text>Loading...</Text>;
     }
-    console.log("mealdata:", mealData);
     return (
         <ScrollView>
         <View className="pt-safe h-full w-full">
@@ -136,9 +135,15 @@ export default function Process() {
                         <Text>
                             Fiber 
                         </Text>
+                        {mealData.fiber_g! >= 0 ?
                         <Text>
                             {mealData.fiber_g}g
                         </Text>
+                        :
+                        <Text>
+                            {mealData.fiber_g}g
+                        </Text>
+                        }
                     </View>
                     <View className="flex flex-row justify-between">
                         <Text>
@@ -184,6 +189,7 @@ export default function Process() {
                 </View>
             </View>
         </View>
+        <View className="h-20" />
         </ScrollView>
     )
 }

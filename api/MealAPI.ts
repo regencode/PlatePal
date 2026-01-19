@@ -1,3 +1,4 @@
+import { MealItem } from "@/types/MealItem";
 import { apiClient } from "./client";
 
 
@@ -18,7 +19,7 @@ export const MealAPI = {
 
     getAllMeals: () => apiClient.get("/me/meals"),
 
-    createMealItem: (mealId: number, payload: any) => {
+    createMealItem: (mealId: number, payload: MealItem) => {
         return apiClient.post(`/me/meals/${mealId}`, {
             ...payload,
         });
@@ -27,7 +28,10 @@ export const MealAPI = {
     getMealItemsFromMeal: (mealId: number) => {
         return apiClient.get(`/me/meals/${mealId}`);
     },
-    
+
+    getMealItem: (mealItemId: number) => {
+        return apiClient.get(`/mealItem/${mealItemId}`);
+    },
     updateMeal: (mealId: number, payload: any) => {
         return apiClient.patch(`/me/meals/${mealId}`, {
             ...payload,

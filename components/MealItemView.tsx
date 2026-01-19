@@ -13,8 +13,8 @@ export interface MealItemProps {
     name? : string;
     imageSrc?: string;
     dateAdded?: string;
-    onLongPress?: () => {},
-    onPress?: () => {}
+    onLongPress?: () => any,
+    onPress?: () => any,
 }
 export const MealItemView = ({
     name = "Food Name",
@@ -22,7 +22,6 @@ export const MealItemView = ({
     ...props
 }: MealItemProps) => {
     const [isReady, setIsReady] = useState(false)
-    const [state, setState] = useState()
     useEffect(() => {
         setIsReady(true);
     }, [])
@@ -35,7 +34,7 @@ export const MealItemView = ({
             {props.imageSrc ? <Image /> : <View className="bg-black h-full aspect-square"/>}
             { isReady && props.data &&
                 <>
-                <View className="px-3 flex-1 flex-grow">
+                <View className="px-2 flex-1 flex-grow">
                     <Text 
                     numberOfLines={2}
                     ellipsizeMode="tail"
