@@ -22,7 +22,7 @@ export default function addMealItem() {
 
         const photo = await cameraRef.current.takePictureAsync({
             quality: 0.6,
-            skipProcessing: true,
+            skipProcessing: false,
         });
 
         console.log(photo.uri);

@@ -48,6 +48,7 @@ export default function Process() {
     if (!isReady) {
       return <Text>Loading...</Text>;
     }
+    console.log("mealdata:", mealData);
     return (
         <ScrollView>
         <View className="p-safe h-full w-full">
