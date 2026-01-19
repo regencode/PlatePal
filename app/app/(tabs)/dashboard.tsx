@@ -137,6 +137,7 @@ export default function Dashboard() {
                                 key={mealItem.id.toString()} 
                                 name={mealItem.food_name} 
                                 data={mealItem}
+                                onPress={() => router.push(`/app/meals/${mealItem.id.toString()}`)}
                                 />
                             ))
                             }

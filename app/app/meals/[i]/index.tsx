@@ -1,9 +1,10 @@
-import { View } from "react-native"
+import { View, Text } from "react-native"
 
 
 export default function Index() {
     return (
         <View>
+            <Text> Coming soon! </Text>
         </View>
     )
 }
