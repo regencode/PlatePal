@@ -10,7 +10,7 @@ import type { MealItem } from "@/types/MealItem";
 
 
 export default function Process() {
-    const { mealId, uri } = useLocalSearchParams<{mealId: string, uri: string}>();
+    const { mealId, uri, originalUri } = useLocalSearchParams<{mealId: string, uri: string, originalUri: string}>();
     const router = useRouter();
     const [mealData, setMealData] = useState<MealItem | null>(null)
     const [confidence, setConfidence] = useState<number>(0);
@@ -18,15 +18,17 @@ export default function Process() {
     const query = async (imageUri: string) => {
         try {
             const { data } =  await LlmAPI.queryFromImageUri(imageUri);
-            if(data.error) {
+            if(data.data.error) {
                 console.log("Unable to process meal information");
                 return ;
             }
             console.log(data);
+            const tempMealData = { imageUri: originalUri, ...data.data }
             setConfidence(data.confidence);
-            setMealData(data.data);
-            const res = await MealAPI.createMealItem(parseInt(mealId), data.data);
-            console.log("createmealitem res status", res.status);
+            setMealData(tempMealData);
+            const res = await MealAPI.createMealItem(parseInt(mealId), tempMealData);
+            console.log("createMealItem status:", res.status);
+
         }
         catch (e) {
             throw e;

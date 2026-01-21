@@ -12,7 +12,7 @@ export default function Index() {
     const { i } = useLocalSearchParams();
     const router = useRouter();
     const [isReady, setIsReady] = useState(false);
-    const [mealData, setMealItemData] = useState<MealItem>();
+    const [mealItemData, setMealItemData] = useState<MealItem>();
     
     const fetchMealItemData = async () => {
         const { data } = await MealAPI.getMealItem(parseInt(i as string));
@@ -27,6 +27,9 @@ export default function Index() {
     if (!isReady) {
       return <Text>Loading...</Text>;
     }
+    if (!mealItemData) {
+      return <Text>Meal item data does not exist!</Text>;
+    }
     return (
         <ScrollView>
         <View className="pt-safe h-full w-full">
@@ -37,26 +40,26 @@ export default function Index() {
             </View>
             <View className="flex flex-col h-full w-full items-center gap-2"> 
                 <View className="w-full aspect-square overflow-hidden bg-black">
-                    <Image
-                    style={{ width: "100%", height: "100%"}}
-                    />
+                {mealItemData.imageUri ? <Image src={mealItemData.imageUri} className="h-full aspect-square"/> 
+                : mealItemData.imageUri ? <Image src={mealItemData.imageUri} className="h-full aspect-square"/> 
+                : <View className="bg-black h-full aspect-square"/>}
                 </View>
                 <View className="flex flex-col w-[80%] gap-2">
-                    {(!isReady && !mealData) ?
+                    {(!isReady && !mealItemData) ?
                     <View className="flex flex-col justify-center align-middle h-20">
                         <Text className="w-full text-center"> Loading... </Text>
                     </View>
                     :
                     <>
                     <View className="flex flex-col justify-center bg-white w-full h-20 px-3 rounded-xl">
-                        <Text className="text-center font-inter-bold">{mealData!.food_name}</Text>
+                        <Text className="text-center font-inter-bold">{mealItemData.food_name}</Text>
                     </View>
                     <View className="flex flex-row justify-between">
                         <Text>
                             Calories
                         </Text>
                         <Text>
-                            {mealData!.calories_kcal} kcal
+                            {mealItemData.calories_kcal} kcal
                         </Text>
                     </View>
                     <View className="flex flex-row justify-between">
@@ -64,7 +67,7 @@ export default function Index() {
                             Estimated portion
                         </Text>
                         <Text>
-                            {mealData!.estimated_portion_g}g
+                            {mealItemData.estimated_portion_g}g
                         </Text>
                     </View>
                     <View className="flex flex-row justify-between">
@@ -72,7 +75,7 @@ export default function Index() {
                             Calorie density 
                         </Text>
                         <Text>
-                            {(mealData!.calories_kcal / mealData!.estimated_portion_g).toFixed(2)}kcal/g
+                            {(mealItemData.calories_kcal / mealItemData.estimated_portion_g).toFixed(2)}kcal/g
                         </Text>
                     </View>
                     <Text> Macronutrients </Text>
@@ -81,7 +84,7 @@ export default function Index() {
                             Carbohydrates
                         </Text>
                         <Text>
-                            {mealData!.carbohydrates_g}g
+                            {mealItemData.carbohydrates_g}g
                         </Text>
                     </View>
                     <View className="flex flex-row justify-between">
@@ -89,7 +92,7 @@ export default function Index() {
                             Protein
                         </Text>
                         <Text>
-                            {mealData!.protein_g}g
+                            {mealItemData.protein_g}g
                         </Text>
                     </View>
                     <View className="flex flex-row justify-between">
@@ -97,7 +100,7 @@ export default function Index() {
                             Fat 
                         </Text>
                         <Text>
-                            {mealData!.fat_g}g
+                            {mealItemData.fat_g}g
                         </Text>
                     </View>
                     <Text> Micronutrients </Text>
@@ -106,7 +109,7 @@ export default function Index() {
                             Fiber 
                         </Text>
                         <Text>
-                            {mealData!.fiber_g}g
+                            {mealItemData.fiber_g}g
                         </Text>
                     </View>
                     <View className="flex flex-row justify-between">
@@ -114,7 +117,7 @@ export default function Index() {
                             Sodium 
                         </Text>
                         <Text>
-                            {mealData!.sodium_mg}mg
+                            {mealItemData.sodium_mg}mg
                         </Text>
                     </View>
                     <View className="flex flex-row justify-between">
@@ -122,7 +125,7 @@ export default function Index() {
                             Sugar
                         </Text>
                         <Text>
-                            {mealData!.sugar_g}g
+                            {mealItemData.sugar_g}g
                         </Text>
                     </View>
                     </>

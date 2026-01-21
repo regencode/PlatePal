@@ -9,8 +9,8 @@ import { useEffect, useState } from "react"
 
 export default function inspectPicture() {
     const router = useRouter()
-    const { mealId, uri } = useLocalSearchParams<{mealId: string, uri: string}>();
-    const [imageUri, setImageUri] = useState(uri);
+    const { mealId, uri: originalUri } = useLocalSearchParams<{mealId: string, uri: string}>();
+    const [imageUri, setImageUri] = useState(originalUri);
     const [isReady, setIsReady] = useState(false);
     const context = useImageManipulator(imageUri);
 
@@ -44,7 +44,7 @@ export default function inspectPicture() {
             <StatusBar style="light" />
             <View className="pt-safe bg-black">
                 <Image
-                source={{ uri: imageUri }}
+                source={{ uri: originalUri }}
                 style={{ width: "100%", height: "77%", position: "absolute"}}
                 />
                 <View className="h-full w-full">
@@ -68,7 +68,7 @@ export default function inspectPicture() {
                         <TouchableOpacity 
                         onPress={() => router.push({
                             pathname: "/app/meals/addMeal/process",
-                            params: { mealId, uri: imageUri }
+                            params: { mealId, uri: imageUri, originalUri }
                         })}
                         className="flex-1 h-full aspect-[2/1] bg-white align-middle items-center justify-center rounded-xl">
                             <Ionicons

@@ -9,5 +9,7 @@ export interface MealItem {
     fiber_g?: number;
     sugar_g?: number;
     sodium_mg?: number;
+    imageSrc?: string;
+    imageUri?: string;
 }
 

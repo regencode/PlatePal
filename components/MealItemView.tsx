@@ -11,7 +11,6 @@ export enum State {
 export interface MealItemProps {
     data: MealItem;
     name? : string;
-    imageSrc?: string;
     dateAdded?: string;
     onLongPress?: () => any,
     onPress?: () => any,
@@ -31,7 +30,9 @@ export const MealItemView = ({
         onPress={props.onPress}
         onLongPress={props.onLongPress}
         >
-            {props.imageSrc ? <Image /> : <View className="bg-black h-full aspect-square"/>}
+            {props.data.imageUri ? <Image src={props.data.imageUri} className="h-full aspect-square"/> 
+            : props.data.imageUri ? <Image src={props.data.imageUri} className="h-full aspect-square"/> 
+            : <View className="bg-black h-full aspect-square"/>}
             { isReady && props.data &&
                 <>
                 <View className="px-2 flex-1 flex-grow">
