@@ -5,7 +5,7 @@ import Dropdown from "@/components/Dropdown";
 import { CustomHeader } from "@/components/CustomHeader";
 import WidgetCounter from "@/components/WidgetCounter";
 import WidgetBar from "@/components/WidgetBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MealItemView } from "@/components/MealItemView";
 import { useRouter } from "expo-router";
 import CustomButton from "@/components/CustomButton";
@@ -16,6 +16,7 @@ import { Loading } from "@/components/Loading";
 import type { Meal } from "@/types/Meal";
 import type { MealItem } from "@/types/MealItem";
 import { UserAPI } from "@/api/UserAPI";
+import { ModalType, useModal } from "@/contexts/ModalContext";
 
 
 const checkConnectivity = async () => {
@@ -33,7 +34,9 @@ export default function Dashboard() {
     const [calorieLimit, setCalorieLimit] = useState(0);
     const [meals, setMeals] = useState<Meal[]>([])
     const [loading, setLoading] = useState(true);
+    const { showModal, hideModal } = useModal();
     const router = useRouter();
+
 
     const fetchMealItemsFromMeal = async (meal: Meal) => {
         return await MealAPI.getMealItemsFromMeal(meal.id);
@@ -142,6 +145,16 @@ export default function Dashboard() {
                                 name={mealItem.food_name} 
                                 data={mealItem}
                                 onPress={() => router.push(`/app/meals/${mealItem.id.toString()}`)}
+                                onLongPress={() => showModal({
+                                    type: ModalType.MEALITEM,
+                                    mealItemId: mealItem.id,
+                                    onEdit: () => null,
+                                    onDelete: async () => {
+                                        MealAPI.deleteMealItem(mealItem.id);
+                                        fetchMeals();
+                                        hideModal(); 
+                                    }
+                                })} 
                                 />
                             ))
                             }

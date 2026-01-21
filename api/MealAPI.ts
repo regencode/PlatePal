@@ -46,6 +46,6 @@ export const MealAPI = {
         return apiClient.delete(`/me/meals/${mealId}`);
     },
     deleteMealItem: (mealItemId: number) => {
-        return apiClient.delete(`/mealIte/${mealItemId}`);
+        return apiClient.delete(`/mealItem/${mealItemId}`);
     },
 }
