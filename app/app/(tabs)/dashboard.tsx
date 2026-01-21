@@ -15,13 +15,17 @@ import { MealAPI } from "@/api/MealAPI";
 import { Loading } from "@/components/Loading";
 import type { Meal } from "@/types/Meal";
 import type { MealItem } from "@/types/MealItem";
-
+import { UserAPI } from "@/api/UserAPI";
 
 
 const checkConnectivity = async () => {
     const res = await HealthAPI.health();
     console.log(res.status);
     return res;
+}
+
+const getCurrentUser = async () => {
+    return;
 }
 
 export default function Dashboard() {
