@@ -8,8 +8,8 @@ if (!httpsTunnel) {
   throw new Error("No HTTPS ngrok tunnel found");
 }
 
-const env = `EXPO_PUBLIC_API_URL=${httpsTunnel.public_url}\n`;
+const env = `EXPO_PUBLIC_BACKEND_URL="${httpsTunnel.public_url}"`;
 
-fs.writeFileSync(".env.ngrok", env);
+fs.writeFileSync(".env.local", env);
 
-console.log(".env.ngrok written:", httpsTunnel.public_url);
+console.log(".env.local written:", httpsTunnel.public_url);

@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     height: 300,
   },
 });
-
 export default function Index() {
     const router = useRouter()
     const { mode, theme, setTheme } = useTheme()
@@ -48,6 +47,7 @@ export default function Index() {
         }
     }
     useEffect(() => {
+        console.log("API URL:", process.env.EXPO_PUBLIC_BACKEND_URL);
         redirectToHomePage(); 
     }, [])
   
