@@ -5,6 +5,8 @@
 Mobile nutrition tracker that uses LLMs for automatically obtaining
 nutritional information.
 
+APK Download link from EAS build: [PlatePal Download](https://expo.dev/artifacts/eas/nU6C1FjEg3qB8QXGzpHbT1.apk)
+
 
 ## Directories
 
