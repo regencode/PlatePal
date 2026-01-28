@@ -18,6 +18,26 @@ nutritional information.
 - /theme - Dark theme and light theme
 - /types - Provide types for objects that are common in multiple pages for reusability
 
+## Pitch Deck
+
+Pitch deck is available in [Canva](https://www.canva.com/design/DAG-lzVMVoA/2PuzEhCihgWxzbReLxxhZA/edit?utm_content=DAG-lzVMVoA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+## Get started
+
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+
+1. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+2. Start the app
+
+   ```bash
+   npx expo start
+   ```
+
 
 ## Screenshots
 
@@ -41,23 +61,4 @@ nutritional information.
 ![PlatePal meal info 1](./screenshots/platepal_meal_info.jpeg)
 ![PlatePal meal info 2](./screenshots/platepal_meal_info_2.jpeg)
 
-## Pitch Deck
-
-Pitch deck is available in [Canva](https://www.canva.com/design/DAG-lzVMVoA/2PuzEhCihgWxzbReLxxhZA/edit?utm_content=DAG-lzVMVoA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-
-## Get started
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
 
