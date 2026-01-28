@@ -38,8 +38,8 @@ nutritional information.
 
 ### Meal info
 
-![PlatePal meal info 1](./screenshots/platepal_meal_info.jpeg")
-![PlatePal meal info 2](./screenshots/platepal_meal_info_2.jpeg")
+![PlatePal meal info 1](./screenshots/platepal_meal_info.jpeg)
+![PlatePal meal info 2](./screenshots/platepal_meal_info_2.jpeg)
 
 ## Pitch Deck
 
