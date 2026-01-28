@@ -26,7 +26,9 @@ const checkConnectivity = async () => {
 }
 
 const getCurrentUser = async () => {
-    return;
+    const res = await UserAPI.getProfile();
+    console.log(res.data);
+    return res;
 }
 
 export default function Dashboard() {
@@ -62,12 +64,18 @@ export default function Dashboard() {
         );
         setMeals(mealsWithItems);
     }
-    useEffect(() => {
+    const loadDashboard = async () => {
         console.log("API URL:", process.env.EXPO_PUBLIC_BACKEND_URL);
         checkConnectivity();
         setCalorieLimit(2000);
+        const { data: user }= await getCurrentUser();
+        //if(!user.hasOnboarded) router.replace("/onboarding");
         fetchMeals();
         setLoading(false);
+    }
+
+    useEffect(() => {
+        loadDashboard();
     }, [])
 
     if (loading) return <Loading />
@@ -137,7 +145,17 @@ export default function Dashboard() {
                     <View className="flex flex-col w-full gap-4">
                         {meals.map(meal => (
                         <Dropdown key={meal.id.toString()} title={meal.name} defaultOpenState={true}
-                        onPress={() => handleAddMealItem(meal.id)}
+                        onPlusPress={() => handleAddMealItem(meal.id)}
+                        onLongPress={() => showModal({
+                            type: ModalType.MEAL,
+                            mealId: meal.id,
+                            onEdit: () => null,
+                            onDelete: async () => {
+                                MealAPI.deleteMeal(meal.id);
+                                fetchMeals();
+                                hideModal();
+                            }
+                        })}
                         >
                             {meal.mealItems.map(mealItem => (
                                 <MealItemView

@@ -11,6 +11,8 @@ export type ModalPayload =
     | {
           type: ModalType.MEAL;
           mealId: number;
+          onEdit: () => any;
+          onDelete: () => any;
       }
     | {
           type: ModalType.MEALITEM;
@@ -26,21 +28,60 @@ export interface ModalContextValue {
 
 const ModalContext = createContext<ModalContextValue | null>(null);
 
-const MealModal = ({ payload }: { payload: Extract<ModalPayload, { type: ModalType.MEAL}>}) => {
+interface MealModalProps {
+    payload: Extract<ModalPayload, { type: ModalType.MEAL }>,
+    onClose: () => void,
+}
+
+const MealModal = ({ payload, onClose }: MealModalProps) => {
     return (
-        <View>
-            <Text>
-                MealModal
-            </Text>
+        <View className="absolute w-full h-full"
+        style={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+        >
+            <View className="absolute w-full bg-white bottom-0">
+                <TouchableOpacity 
+                onPress={onClose}
+                className="h-16 w-full flex flex-row justify-center">
+                    <Ionicons 
+                    name="chevron-down"
+                    size={36}
+                    />
+                </TouchableOpacity>
+                <View className="flex flex-col w-[80%] mx-auto gap-5 my-10">
+                    <TouchableOpacity className="flex flex-row gap-2"
+                    onPress={payload.onEdit}
+                    >
+                        <Ionicons 
+                        name="pencil"
+                        size={28}
+                        />
+                        <Text className= "text-3xl">
+                            Edit...
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity className="flex flex-row gap-2"
+                    onPress={payload.onDelete}
+                    >
+                        <Ionicons 
+                        name="trash"
+                        size={28}
+                        />
+                        <Text className= "text-3xl">
+                            Delete...
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View className="h-36" />
+            </View>
         </View>
     );
+
 }
 
 interface MealItemModalProps {
     payload: Extract<ModalPayload, { type: ModalType.MEALITEM }>,
     onClose: () => void,
 }
-
 
 const MealItemModal = ({ payload, onClose }: MealItemModalProps) => {
     return (
@@ -99,6 +140,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         }
         else if(modalPayload.type == ModalType.MEAL) {
             return <MealModal 
+            onClose={() => hideModal()}
             payload={modalPayload}/>;
         }
         else if(modalPayload.type == ModalType.MEALITEM) {

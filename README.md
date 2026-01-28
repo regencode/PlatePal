@@ -1,5 +1,7 @@
 # PlatePal Frontend
 
+![PlatePal logo](/assets/images/platepal-logo.png)
+
 Mobile nutrition tracker that uses LLMs for automatically obtaining
 nutritional information.
 
@@ -17,11 +19,31 @@ nutritional information.
 - /types - Provide types for objects that are common in multiple pages for reusability
 
 
-## Current Progress
+## Screenshots
 
-There is still an issue with uploading images to the cloud with Expo and React Native, however for the main functionality/flow
-is mostly done in the backend, just need to connect to the frontend after resolving this issue
+### Login/Register
 
+![PlatePal login](./screenshots/platepal_login.jpeg)
+![PlatePal register](./screenshots/platepal_register.jpeg)
+
+### Dashboard
+
+![PlatePal dashboard](./screenshots/platepal_dashboard.jpeg)
+
+
+### Camera
+
+![PlatePal camera](./screenshots/platepal_camera.png)
+![PlatePal camera confirm](./screenshots/platepal_camera_confirm.png)
+
+### Meal info
+
+![PlatePal meal info 1](./screenshots/platepal_meal_info.jpeg")
+![PlatePal meal info 2](./screenshots/platepal_meal_info_2.jpeg")
+
+## Pitch Deck
+
+Pitch deck is available in [Canva](https://www.canva.com/design/DAG-lzVMVoA/2PuzEhCihgWxzbReLxxhZA/edit?utm_content=DAG-lzVMVoA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## Get started
 

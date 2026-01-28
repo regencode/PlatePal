@@ -1,11 +1,13 @@
 import { View, Text, TouchableOpacity } from "react-native"
 import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 interface DropdownProps {
     defaultOpenState: boolean;
     title: string;
     children: React.ReactNode[];
-    onPress?: () => void;
+    onPlusPress?: () => void;
+    onLongPress?: () => void;
 }
 
 function Dropdown(props : DropdownProps) {
@@ -15,13 +17,14 @@ function Dropdown(props : DropdownProps) {
             <View className="flex flex-col gap-2 w-[85%] justify-center mx-auto my-3">
                 <TouchableOpacity 
                 onPress={() => setIsOpen(!isOpen)}
+                onLongPress={props.onLongPress}
                 className="flex flex-row w-full text-left justify-between">
                     <View className="flex flex-row gap-4">
                         <Text className="text-2xl font-condensed-inconsolata-bold">{props.title}</Text>
                     </View>
                     <TouchableOpacity 
                     className="w-9 bg-green-600 aspect-square rounded-full"
-                    onPress={props.onPress}
+                    onPress={props.onPlusPress}
                     >
                         <Text className="text-3xl text-center text-white">
                             +

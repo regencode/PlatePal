@@ -36,8 +36,8 @@ export default function Index() {
     const redirectToHomePage = async () => {
         try {
             const { data } = await AuthAPI.refresh();
+            console.log(data.accessToken);
             setAccessToken(data.accessToken);
-            await storeRefreshToken(data.refreshToken);
             router.replace("/app/(tabs)/dashboard")
             setReady(true);
         }
